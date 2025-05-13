@@ -45,8 +45,8 @@ app.post('/api/optionchain', async (req, res) => {
       { UnderlyingScrip, UnderlyingSeg, Expiry },
       {
         headers: {
-          'access-token': process.env.ACCESS_TOKEN,
-          'client-id': process.env.CLIENT_ID,
+          'access-token': process.env.REACT_APP_ACCESS_TOKEN,
+          'client-id': process.env.REACT_APP_CLIENT_ID,
           'Content-Type': 'application/json',
         },
       }
@@ -78,8 +78,8 @@ app.post('/api/expirylist', async (req, res) => {
       { UnderlyingScrip, UnderlyingSeg },
       {
         headers: {
-          'access-token': process.env.ACCESS_TOKEN,
-          'client-id': process.env.CLIENT_ID,
+          'access-token': process.env.REACT_APP_ACCESS_TOKEN,
+          'client-id': process.env.REACT_APP_CLIENT_ID,
           'Content-Type': 'application/json',
         },
       }
@@ -107,8 +107,8 @@ app.get('/api/optionchain/json', async (req, res) => {
       { UnderlyingScrip, UnderlyingSeg, Expiry },
       {
         headers: {
-          'access-token': process.env.ACCESS_TOKEN,
-          'client-id': process.env.CLIENT_ID,
+          'access-token': process.env.REACT_APP_ACCESS_TOKEN,
+          'client-id': process.env.REACT_APP_CLIENT_ID,
           'Content-Type': 'application/json',
         },
       }
