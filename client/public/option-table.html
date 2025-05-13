@@ -1,0 +1,70 @@
+<!-- public/html-table.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Option Chain Table</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+  <h2>Option Chain Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>CE Vega</th>
+        <th>CE Delta</th>
+        <th>CE Theta</th>
+        <th>Strike</th>
+        <th>PE Theta</th>
+        <th>PE Delta</th>
+        <th>PE Vega</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+      <tr><td colspan="7">Loading data...</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("tableRows") || "[]");
+    const tbody = document.getElementById("table-body");
+
+    if (data.length > 0) {
+      tbody.innerHTML = "";
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.ceVega}</td>
+          <td>${row.ceDelta}</td>
+          <td>${row.ceTheta}</td>
+          <td>${row.strike}</td>
+          <td>${row.peTheta}</td>
+          <td>${row.peDelta}</td>
+          <td>${row.peVega}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } else {
+      tbody.innerHTML = `<tr><td colspan="7">No data available. Please load from the app.</td></tr>`;
+    }
+  </script>
+</body>
+</html>
