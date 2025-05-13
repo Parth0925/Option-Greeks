@@ -10,7 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 app.use(cors({
-  origin: '*'
+  origin: 'https://meek-pavlova-80f7a3.netlify.app/',
+  credentials: true
 }));
 app.use(express.json());
 
