@@ -16,8 +16,8 @@ app.use(express.json());
 
 // MongoDB setup
 mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  //useNewUrlParser: true,
+  //useUnifiedTopology: true,
 });
 
 const optionSchema = new mongoose.Schema({
