@@ -100,7 +100,7 @@ app.post('/api/expirylist', async (req, res) => {
 // Fetch MongoDB data - Snapshot
 app.get('/api/snapshots', async (req, res) => {
   try {
-    const snapshots = await OptionChainSnapshot.find().sort({ timestamp: -1 }).limit(10); // Limit to 10 recent entries
+    const snapshots = await OptionChainSnapshot.find({}, { data: 1, _id: 0 });
     res.json(snapshots);
   } catch (err) {
     console.error('Failed to fetch snapshots from MongoDB:', err);
