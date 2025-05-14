@@ -1,10 +1,11 @@
 // src/API/api.js
 import axios from 'axios';
+require('dotenv').config();
 
 //const BASE_URL = 'http://localhost:5001/api';
 //const BASE_URL = "https://option-greeks-iygo.onrender.com"
 //const BASE_URL = "http://192.168.1.8:5001/api"
-const BASE_URL = "https://option-greeks-j5pc.onrender.com/api"
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 // Fetch Option Chain Data
 export const fetchOptionChainData = async (UnderlyingScrip, UnderlyingSeg, Expiry) => {

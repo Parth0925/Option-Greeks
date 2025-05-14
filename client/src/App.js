@@ -1,13 +1,11 @@
-// App.js
 import React, { useEffect, useState } from 'react';
 import { fetchOptionChainData, fetchExpiryList } from './API/api.js';
+import MongoTable from './MongoTable.js'; // Import MongoTable to display MongoDB data
 import * as XLSX from 'xlsx';
 
 const indexOptions = {
-
   SENSEX: { UnderlyingScrip: 51, UnderlyingSeg: 'IDX_I' },
-  NIFTY: { UnderlyingScrip: 13, UnderlyingSeg: 'IDX_I' },
-  
+  //NIFTY: { UnderlyingScrip: 13, UnderlyingSeg: 'IDX_I' },
 };
 
 const App = () => {
@@ -63,23 +61,6 @@ const App = () => {
     XLSX.writeFile(wb, "option_chain_data.xlsx");
   };
 
-  const openHtmlTable = () => {
-    if (!optionData?.oc) return;
-
-    const tableRows = Object.entries(optionData.oc).map(([strike, data]) => ({
-      ceVega: formatNumber(data.ce?.greeks?.vega),
-      ceDelta: formatNumber(data.ce?.greeks?.delta),
-      ceTheta: formatNumber(data.ce?.greeks?.theta),
-      strike: formatStrike(strike),
-      peTheta: formatNumber(data.pe?.greeks?.theta),
-      peDelta: formatNumber(data.pe?.greeks?.delta),
-      peVega: formatNumber(data.pe?.greeks?.vega),
-    }));
-
-    localStorage.setItem("tableRows", JSON.stringify(tableRows));
-    window.open("/html-table.html", "_blank");
-  };
-
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
       <h2>Option Chain - {selectedIndex}</h2>
@@ -110,6 +91,7 @@ const App = () => {
       )}
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
       {!optionData ? (
         <p>Loading...</p>
       ) : (
@@ -146,16 +128,24 @@ const App = () => {
             </tbody>
           </table>
 
-          <br />
-          <button onClick={exportToExcel} style={{ padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', cursor: 'pointer' }}>
+          <button
+            onClick={exportToExcel}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              marginTop: '20px',
+              cursor: 'pointer',
+            }}
+          >
             Export to Excel
-          </button>
-
-          <button onClick={openHtmlTable} style={{ marginLeft: '10px', padding: '10px', backgroundColor: '#2196F3', color: 'white', border: 'none', cursor: 'pointer' }}>
-            View HTML Table
           </button>
         </>
       )}
+
+      {/* MongoDB Table */}
+      <MongoTable />
     </div>
   );
 };
