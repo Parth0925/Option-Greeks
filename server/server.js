@@ -44,8 +44,8 @@ const snapshotSchema = new mongoose.Schema({
 
 // Connect to MongoDB Atlas
 mongoose.connect(process.env.REACT_APP_MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  //useNewUrlParser: true,
+  //useUnifiedTopology: true,
 })
   .then(() => console.log('✅ Connected to MongoDB Atlas'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
