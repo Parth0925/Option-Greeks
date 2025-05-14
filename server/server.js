@@ -15,7 +15,7 @@ app.use(cors({
 app.use(express.json());
 
 // MongoDB setup
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.REACT_APP_MONGODB_URI, {
   //useNewUrlParser: true,
   //useUnifiedTopology: true,
 });
@@ -43,7 +43,7 @@ const snapshotSchema = new mongoose.Schema({
 });
 
 // Connect to MongoDB Atlas
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.REACT_APP_MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
