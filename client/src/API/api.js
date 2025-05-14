@@ -1,6 +1,5 @@
 // src/API/api.js
 import axios from 'axios';
-require('dotenv').config();
 
 //const BASE_URL = 'http://localhost:5001/api';
 //const BASE_URL = "https://option-greeks-iygo.onrender.com"
