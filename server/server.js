@@ -175,9 +175,9 @@ const fetchAndStoreOptionData = async () => {
         { upsert: true }
       );
 
-      console.log(`✅ [${index.name}] Updated Mongo snapshot`);
+      //console.log(`✅ [${index.name}] Updated Mongo snapshot`);
     } catch (err) {
-      console.error(`❌ Failed for ${index.name}:`, err.message || err);
+      //console.error(`❌ Failed for ${index.name}:`, err.message || err);
     }
   }
 };
