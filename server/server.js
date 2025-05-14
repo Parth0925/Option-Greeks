@@ -4,6 +4,10 @@ const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config();
 
+const connectDB = require('./db');
+const OptionChain = require('./models/OptionChain');
+connectDB();
+
 const app = express();
 const PORT = process.env.PORT || 5001;
 
@@ -15,6 +19,17 @@ let lastRequestTime = 0;
 let cachedResponse = null;
 let isFetching = false;
 const CACHE_DURATION_MS = 3100;
+
+// static html app
+app.get('/api/optionchain', async (req, res) => {
+  try {
+    const data = await OptionChain.find({}); // Fetch from MongoDB
+    res.json(data); // Send as JSON
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch option chain data' });
+  }
+});
+
 
 // Option Chain Endpoint
 app.post('/api/optionchain', async (req, res) => {
@@ -47,10 +62,19 @@ app.post('/api/optionchain', async (req, res) => {
       }
     );
 
+    const newData = response.data;
+
+    // Replace previous data for same expiry/index
+    await OptionChain.replaceOne(
+      { UnderlyingScrip, UnderlyingSeg, Expiry },
+      { UnderlyingScrip, UnderlyingSeg, Expiry, data: newData },
+      { upsert: true }
+    );
+
     lastRequestTime = Date.now();
     cachedResponse = response.data;
 
-    console.log('✅ Fetched fresh data from Dhan');
+    console.log('✅ Fetched and stored in MongoDB');
     res.json(response.data);
   } catch (error) {
     console.error('Error fetching data from Dhan API:', error.response?.data || error.message);
@@ -89,6 +113,17 @@ app.post('/api/expirylist', async (req, res) => {
     });
   }
 });
+
+app.get('/api/optionchain', async (req, res) => {
+  try {
+    // Fetch data from MongoDB
+    const data = await OptionChain.find({});
+    res.json(data); // Send data as JSON response
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch data' });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
