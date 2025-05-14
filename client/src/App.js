@@ -9,7 +9,7 @@ const indexOptions = {
 const App = () => {
   const [optionData, setOptionData] = useState(null);
   const [expiryDates, setExpiryDates] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState('NIFTY');
+  const [selectedIndex, setSelectedIndex] = useState('SENSEX');
   const [selectedExpiry, setSelectedExpiry] = useState('');
   const [error, setError] = useState(null);
 
