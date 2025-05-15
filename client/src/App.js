@@ -44,12 +44,34 @@ const App = () => {
   useEffect(() => {
     if (selectedExpiry) {
       loadData();
-      const interval = setInterval(loadData, 10000);
+      const interval = setInterval(loadData, 60000); // 60 seconds
       return () => clearInterval(interval);
     }
   }, [selectedExpiry]);
 
   const formatNumber = (num) => (num !== undefined ? num.toFixed(4) : '-');
+
+  const getFilteredRows = () => {
+    if (!optionData?.oc || !optionData.last_price) return [];
+
+    const strikes = Object.keys(optionData.oc).map(Number);
+    const sortedStrikes = strikes.sort((a, b) => a - b);
+    const underlying = optionData.last_price;
+
+    // Find the closest strike to the underlying
+    let closestIndex = sortedStrikes.findIndex((strike) => strike >= underlying);
+    if (closestIndex === -1) closestIndex = sortedStrikes.length - 1;
+
+    const start = Math.max(0, closestIndex - 15);
+    const end = Math.min(sortedStrikes.length, closestIndex + 16); // +16 for inclusive range (15 above + 1 ATM)
+
+    return sortedStrikes.slice(start, end).map((strike) => ({
+      strike,
+      data: optionData.oc[strike.toFixed(6)], // match original string format keys
+    }));
+  };
+
+  const filteredRows = getFilteredRows();
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
@@ -97,7 +119,7 @@ const App = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(optionData.oc).map(([strike, data]) => (
+            {filteredRows.map(({ strike, data }) => (
               <tr key={strike}>
                 <td>{formatNumber(data.ce?.greeks?.vega)}</td>
                 <td>{formatNumber(data.ce?.greeks?.delta)}</td>
