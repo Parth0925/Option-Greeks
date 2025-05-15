@@ -1,7 +1,14 @@
 // src/API/api.js
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5001/api';
+//const BASE_URL = 'http://localhost:5001/api';
+
+// const BASE_URL =
+//   process.env.NODE_ENV === 'production'
+//     ? 'https://option-greeks-pcnk.onrender.com/api' 
+//     : 'http://localhost:5001/api'; 
+
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 // Fetch Option Chain Data
 export const fetchOptionChainData = async (UnderlyingScrip, UnderlyingSeg, Expiry) => {

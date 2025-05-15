@@ -30,7 +30,7 @@ const App = () => {
       const { UnderlyingScrip, UnderlyingSeg } = indexOptions[selectedIndex];
       const dates = await fetchExpiryList(UnderlyingScrip, UnderlyingSeg);
       setExpiryDates(dates);
-      setSelectedExpiry(dates[0]); // Set default to first expiry
+      setSelectedExpiry(dates[0]); 
     } catch (err) {
       console.error(err);
       setError('Failed to fetch expiry dates');
@@ -58,16 +58,16 @@ const App = () => {
     const sortedStrikes = strikes.sort((a, b) => a - b);
     const underlying = optionData.last_price;
 
-    // Find the closest strike to the underlying
+    
     let closestIndex = sortedStrikes.findIndex((strike) => strike >= underlying);
     if (closestIndex === -1) closestIndex = sortedStrikes.length - 1;
 
     const start = Math.max(0, closestIndex - 15);
-    const end = Math.min(sortedStrikes.length, closestIndex + 16); // +16 for inclusive range (15 above + 1 ATM)
+    const end = Math.min(sortedStrikes.length, closestIndex + 16); 
 
     return sortedStrikes.slice(start, end).map((strike) => ({
       strike,
-      data: optionData.oc[strike.toFixed(6)], // match original string format keys
+      data: optionData.oc[strike.toFixed(6)], 
     }));
   };
 
